@@ -7,3 +7,4 @@ whisper
 streamlit-webrtc
 ffmpeg-python
 av
+matplotlib
