@@ -70,11 +70,6 @@ with tab3:
 
 st.header('💡 Smart Investment Advice')
 goal = st.text_input("What's your investment goal?")
-if st.button("🎤 Use Voice Input"):
-    voice = voice_input_box()
-    if voice:
-        st.success(f"You said: {voice}")
-        st.info(advise_user(voice))
 if goal:
     st.success(advise_user(goal))
 
