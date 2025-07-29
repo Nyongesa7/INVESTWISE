@@ -1,45 +1,36 @@
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from twilio.rest import Client
+def send_email_alert(to_email, subject, message):
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    import os
 
-# ======================
-# 📬 EMAIL NOTIFICATIONS
-# ======================
+    email_user = os.getenv("EMAIL_ADDRESS")
+    email_pass = os.getenv("EMAIL_PASSWORD")
 
-def send_email_alert(recipient_email, subject, body, sender_email, sender_password):
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        msg['To'] = recipient_email
-        msg['Subject'] = subject
+    msg = MIMEMultipart()
+    msg['From'] = email_user
+    msg['To'] = to_email
+    msg['Subject'] = subject
 
-        msg.attach(MIMEText(body, 'plain'))
+    msg.attach(MIMEText(message, 'plain'))
+    text = msg.as_string()
 
-        # Gmail SMTP
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(sender_email, sender_password)
-        server.send_message(msg)
-        server.quit()
-
-        print(f"✅ Email sent to {recipient_email}")
-    except Exception as e:
-        print(f"❌ Email failed: {e}")
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        server.login(email_user, email_pass)
+        server.sendmail(email_user, to_email, text)
 
 
-# =========================
-# 📱 WHATSAPP NOTIFICATIONS
-# =========================
+def send_whatsapp_alert(to_number, message):
+    from twilio.rest import Client
+    import os
 
-def send_whatsapp_alert(to_number, message, twilio_sid, twilio_token, from_whatsapp='+14155238886'):
-    try:
-        client = Client(twilio_sid, twilio_token)
-        message = client.messages.create(
-            from_='whatsapp:' + from_whatsapp,
-            body=message,
-            to='whatsapp:' + to_number
-        )
-        print(f"✅ WhatsApp message sent: {message.sid}")
-    except Exception as e:
-        print(f"❌ WhatsApp failed: {e}")
+    account_sid = os.getenv("TWILIO_SID")
+    auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+    from_number = os.getenv("TWILIO_NUMBER")
+
+    client = Client(account_sid, auth_token)
+    client.messages.create(
+        body=message,
+        from_='whatsapp:' + from_number,
+        to='whatsapp:' + to_number
+    )
