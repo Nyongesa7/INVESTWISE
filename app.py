@@ -1,7 +1,4 @@
-# 📘 InvestWise Kenya – Multi-User Streamlit App (Colab Setup with Voice & WhatsApp)
-!pip install git+https://github.com/openai/whisper.git ffmpeg --upgrade --quiet
-import ffmpeg
-
+# 📘 InvestWise Kenya – Multi-User Streamlit App (Colab Setup with Voice
 
 # 1. Install dependencies
 !pip install streamlit pandas requests beautifulsoup4 twilio pyngrok matplotlib seaborn streamlit-webrtc flask ngrok --quiet
