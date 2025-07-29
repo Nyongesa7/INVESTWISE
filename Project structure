@@ -1,0 +1,9 @@
+investwise_kenya/
+├── app.py                 ← Streamlit app UI
+├── fetch_data.py          ← Market data source (placeholder)
+├── advisor.py             ← Smart suggestion logic
+├── notify.py              ← Notification backend (to be expanded)
+├── requirements.txt       ← Python packages needed
+├── README.md              ← Project overview
+└── InvestWiseKenya.ipynb  ← Google Colab companion
+
