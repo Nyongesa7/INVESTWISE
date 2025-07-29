@@ -3,7 +3,6 @@
 # ------------------------ app.py ------------------------
 import streamlit as st
 from fetch_data import get_market_data
-from stock_data import fetch_nse_stocks
 from mmf_data import fetch_mmf_rates
 from banks import fetch_bank_rates
 from notify import send_email_alert, send_whatsapp_alert
