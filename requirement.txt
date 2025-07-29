@@ -3,8 +3,5 @@ pandas
 matplotlib
 seaborn
 twilio
-whisper
-streamlit-webrtc
 ffmpeg-python
 av
-matplotlib
