@@ -1,17 +1,6 @@
-# 📘 InvestWise Kenya – Multi-User Streamlit App (Colab Setup with Voice
+# 📘 InvestWise Kenya – Streamlit Production Code (Without Colab Setup)
 
-# 1. Install dependencies
-!pip install streamlit pandas requests beautifulsoup4 twilio pyngrok matplotlib seaborn streamlit-webrtc flask ngrok --quiet
-
-# 2. Setup .streamlit config
-import os
-os.makedirs(".streamlit", exist_ok=True)
-with open(".streamlit/config.toml", "w") as f:
-    f.write("[server]\nheadless = true\nport = 8501\nenableCORS = false")
-
-# 3. Write all Python app files
-code_files = {
-    "app.py": '''
+# ------------------------ app.py ------------------------
 import streamlit as st
 from fetch_data import get_market_data
 from stock_data import fetch_nse_stocks
@@ -97,13 +86,14 @@ st.markdown("""
 - Dividends: Subject to **5%** withholding tax.
 - Bank savings interest: **15%** withholding.
 """)
-''',
 
-    "voice_input.py": '''
+# ---------------------- voice_input.py ----------------------
+
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, WebRtcMode
 import whisper
 import av
+import ffmpeg
 
 model = whisper.load_model("base")
 
@@ -131,21 +121,7 @@ def voice_input_box():
     if hasattr(ctx.audio_processor, 'transcription'):
         return ctx.audio_processor.transcription
     return ""
-'''
-}
 
-# Save each file
-for name, content in code_files.items():
-    with open(name, "w") as f:
-        f.write(content)
+# ✅ All other required scripts (fetch_data.py, notify.py, etc.) must be included in the same repo for Streamlit Cloud.
+# ✅ Also include requirements.txt and .streamlit/config.toml as previously described.
 
-# 4. Run Streamlit app using ngrok
-from pyngrok import ngrok
-import threading, time
-
-def run():
-    os.system("streamlit run app.py")
-threading.Thread(target=run).start()
-time.sleep(5)
-public_url = ngrok.connect(8501)
-print("✅ Your app is live at:", public_url)
